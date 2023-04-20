@@ -1,26 +1,20 @@
 package com.s2i.gevents.web;
 
-import com.s2i.gevents.domain.Event;
-import com.s2i.gevents.repositories.EventRepository;
 import com.s2i.gevents.service.EventService;
 import com.s2i.gevents.service.dto.EventDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Optional;
 
 @RestController()
 @RequestMapping(path = "/api")
 public class EventController {
 
-    private EventService service;
-    private EventRepository repository;
+    private final EventService service;
 
-    public EventController(EventService service, EventRepository repository) {
+    public EventController(EventService service) {
         this.service = service;
-        this.repository = repository;
     }
 
     @PostMapping("/events")

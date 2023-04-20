@@ -1,7 +1,5 @@
 package com.s2i.gevents.domain;
 
-
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
