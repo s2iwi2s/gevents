@@ -1,1 +1,10 @@
-"# crud-angularreact-app-gen" 
+### Git
+```
+echo "# gevents" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M master
+git remote add origin https://github.com/s2iwi2s/gevents.git
+git push -u origin master
+```
