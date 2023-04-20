@@ -2,6 +2,8 @@ package com.s2i.gevents.web;
 
 import com.s2i.gevents.domain.Event;
 import com.s2i.gevents.repositories.EventRepository;
+import com.s2i.gevents.service.EventService;
+import com.s2i.gevents.service.dto.EventDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,34 +15,35 @@ import java.util.Optional;
 @RequestMapping(path = "/api")
 public class EventController {
 
+    private EventService service;
     private EventRepository repository;
-    public EventController(EventRepository repository){
+
+    public EventController(EventService service, EventRepository repository) {
+        this.service = service;
         this.repository = repository;
     }
 
     @PostMapping("/events")
-    public ResponseEntity<?> save(@RequestBody Event event) throws URISyntaxException {
-        if(event.getId() == null) {
-            event = repository.save(event);
-            return ResponseUtil.created("/api/events", event);
+    public ResponseEntity<?> save(@RequestBody EventDTO dto) throws URISyntaxException {
+        if (dto.getId() == null) {
+            dto = service.save(dto);
+            return ResponseUtil.created("/api/events", dto);
         }
-        return ResponseUtil.badRequest(event);
+        return ResponseUtil.badRequest(dto);
     }
 
     @GetMapping("/events")
-    public ResponseEntity<?> getAll(){
-        List<Event> events = repository.findAll();
-        return ResponseEntity.ok(events);
+    public ResponseEntity<?> findAll() {
+        return ResponseEntity.ok(service.findAll());
     }
 
     @GetMapping("/repos/{first}/events")
-    public ResponseEntity<?> getAllById(@PathVariable(required = false, value = "first") Integer first){
-        List<Event> events = repository.findAllByFirstEquals(first);
-        return ResponseEntity.ok(events);
+    public ResponseEntity<?> findAllByFirst(@PathVariable(required = false, value = "first") Integer first) {
+        return ResponseEntity.ok(service.findAll(first));
     }
+
     @GetMapping("/events/{eventId}")
-    public ResponseEntity<?> save(@PathVariable("eventId") Long eventId){
-        Optional<Event> optionalEvent = repository.findById(eventId);
-        return ResponseUtil.wrapOrNotFound(optionalEvent);
+    public ResponseEntity<?> save(@PathVariable("eventId") Long eventId) {
+        return ResponseUtil.wrapOrNotFound(service.findById(eventId));
     }
 }
