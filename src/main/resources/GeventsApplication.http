@@ -1,0 +1,12 @@
+GET http://localhost:8080/api/employee/age/equal/40
+
+###
+
+GET http://localhost:8080/api/employee/age/lessThan/40
+
+###
+
+GET http://localhost:8080/api/employee/age/greaterThan/40
+
+###
+
